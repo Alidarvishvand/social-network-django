@@ -2,6 +2,7 @@
     {% block content %} 
          {% if request.user.id == post.user.id%}
             <a href="{% url 'home:post_delete' post.id %}" class ="btn-danger">Delete</a>
+            <a href="{% url 'home:post_update' post.id %}" class ="btn-info">Update</a>
          {% endif %}
         <p><a href="{% url 'account:profile' post.user.id %}">{{ post.user.username }}-{{ post.update|date:"D Y" }}</a>  </p>
         <p>{{ post.body }}</p>
