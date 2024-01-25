@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import Post
+from .models import Post , Comment
 # Register your models here.
 
-
+@admin.register(Post)
 class postAdmin(admin.ModelAdmin):
     list_display = ['user','slug','update']
     search_fields = ('slug','body')
@@ -14,5 +14,11 @@ class postAdmin(admin.ModelAdmin):
 
 #@admin.register(post)
 #or
-admin.site.register(Post,postAdmin)
 
+
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'post', 'created','is_reply')
+    raw_id_fields = ('user', 'post', 'reply')

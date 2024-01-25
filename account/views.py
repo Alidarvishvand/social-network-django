@@ -85,6 +85,11 @@ class UserLoginView(View):
             return render(request,self.template_name,{'form':form})
       
 
+
+
+
+
+
 class UserLogOutView(LoginRequiredMixin,View):
       login_url =  '/account/login/'
       def get (self, request):
