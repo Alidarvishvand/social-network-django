@@ -23,16 +23,15 @@ class PostDetailView(View):
         return render(request , 'home/detail.html' , {'post':post})
 
 
-class PostDeleteView(LoginRequiredMixin,View):
-    def get(self,request,post_id):
-        post = get_object_or_404(Post,pk=post_id)
-        if post.user.id == request.user.id:
-            post.delete()
-            messages.success(request,'Post has been deleted')
-
-        else:
-            messages.error(request,'you are not allowed to')
-            return redirect('home:home')
+class PostDeleteView(LoginRequiredMixin, View):
+	def get(self, request, post_id):
+		post = get_object_or_404(Post, pk=post_id)
+		if post.user.id == request.user.id:
+			post.delete()
+			messages.success(request, 'post deleted successfully', 'success')
+		else:
+			messages.error(request, 'you cant delete this post', 'danger')
+		return redirect('home:home')
         
 
 class PostUpdateView(LoginRequiredMixin,View):
