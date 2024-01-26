@@ -9,7 +9,7 @@
 
 
         
-        {% comment %} {% if request.user.is_authenticated %}
+        {% if request.user.is_authenticated %}
 
             <a href="{% url 'home:post_like' post.id %}" class="{% if can_like %}disabled{% endif %} btn btn-primary col-md-2">Like {{ post.likes_count }}</a>
 
@@ -20,7 +20,7 @@
             </form> <br/>
         {% else %}
             <p class="alert alert-danger">Only logged in users can comment.</p>
-        {% endif %} {% endcomment %}
+        {% endif %}
 
 
         {% for comment in comments %}

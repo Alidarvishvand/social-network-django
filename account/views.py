@@ -53,7 +53,7 @@ class UserLoginView(View):
 
       def setup(self, request: HttpRequest, *args, **kwargs) :
             self.next  = request.GET.get('next', None)
-            return super().setup(request,**args,**kwargs)
+            return super().setup(request,*args,**kwargs)
       
 
 
