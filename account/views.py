@@ -2,7 +2,7 @@ from typing import Any
 from django.http import HttpRequest
 from django.shortcuts import render,redirect,get_object_or_404,get_list_or_404
 from django.views import View
-from . forms import UserRegisteForm,UserLoginForm
+from . forms import UserRegisteForm,UserLoginForm,EditUserForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -40,6 +40,7 @@ class RegisterView(View):
               if form.is_valid():
                     cd= form.cleaned_data
                     User.objects.create_user(cd['username'],cd['email'],cd['password'])
+                    
                     messages.success(request,'you register successfully','success')
                     return redirect('home:home')
               return render(request, self.template_name ,{'form':form})
@@ -155,3 +156,19 @@ class UserUnfollowView(LoginRequiredMixin,View):
             else:
                   messages.error(request,'you are not following this user','danger')
             return redirect('account:profile',user.id)
+
+class EditUserView(LoginRequiredMixin, View):
+	form_class = EditUserForm
+
+	def get(self, request):
+		form = self.form_class(instance=request.user.profile, initial={'email':request.user.email})
+		return render(request, 'account/edit_profile.html', {'form':form})
+
+	def post(self, request):
+		form = self.form_class(request.POST, instance=request.user.profile)
+		if form.is_valid():
+			form.save()
+			request.user.email = form.cleaned_data['email']
+			request.user.save()
+			messages.success(request, 'profile edited successfully', 'success')
+		return redirect('account:profile', request.user.id)

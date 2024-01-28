@@ -6,6 +6,7 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,related_name = 'posts')
     body = models.TextField()
     slug = models.SlugField()
+    title = models.CharField(max_length=50, default='empty')
     create= models.DateTimeField(auto_now_add=True)
     update = models.DateTimeField(auto_now=True)
 
@@ -55,4 +56,8 @@ class Vote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name = 'pvotes')
 
     def __str__(self):
-        return f'{self.user} liked{self.slug}'
+        return f'{self.user} liked {self.post.slug}'
+    
+
+
+    
